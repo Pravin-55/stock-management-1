@@ -1,0 +1,239 @@
+from PyQt5 import QtWidgets
+
+import os
+
+import datetime
+
+import manipulation as mp
+
+from PyQt5.QtCore import QRect
+
+from PyQt5.QtWidgets import QTabWidget
+
+from PyQt5.QtWidgets import QTableWidget
+
+from PyQt5.QtWidgets import QTableWidgetItem
+
+from PyQt5.QtWidgets import QVBoxLayout
+
+from PyQt5.QtGui import QIcon
+
+from PyQt5.QtWidgets import QFormLayout
+
+from PyQt5.QtWidgets import QLabel
+
+from PyQt5.QtWidgets import QLineEdit
+
+from PyQt5.QtWidgets import QListWidget
+
+from PyQt5.QtWidgets import QStackedWidget
+
+from PyQt5.QtWidgets import (QWidget, QPushButton,QMainWindow,
+
+                             QHBoxLayout, QAction)
+
+ 
+
+import sqlite3
+
+ 
+
+try:
+
+    conn = sqlite3.connect('stock.db')
+
+    c = conn.cursor()
+
+    c.execute("""CREATE TABLE stock (
+
+                name text,
+
+                quantity integer,
+
+                cost integer
+
+                ) """)
+
+    conn.commit()
+
+except Exception:
+
+    print('DB exists')
+
+ 
+
+ 
+
+class Login(QtWidgets.QDialog):
+
+    def __init__(self, parent=None):
+
+        super(Login, self).__init__(parent)
+
+        self.textName = QtWidgets.QLineEdit(self)
+
+        self.textPass = QtWidgets.QLineEdit(self)
+
+        self.buttonLogin = QtWidgets.QPushButton('Admin Login', self)
+
+        self.buttonLogin.clicked.connect(self.handleLogin)
+
+ 
+
+        layout = QtWidgets.QVBoxLayout(self)
+
+        layout.addWidget(self.textName)
+
+        layout.addWidget(self.textPass)
+
+        layout.addWidget(self.buttonLogin)
+
+ 
+
+ 
+
+    def handleLogin(self):
+
+        if (self.textName.text() == 'Admin' and
+
+            self.textPass.text() == '1234'):
+
+            self.accept()
+
+        else:
+
+            QtWidgets.QMessageBox.warning(
+
+                self, 'Error', 'Bad user or password')
+
+ 
+
+class Example(QMainWindow):
+
+ 
+
+ 
+
+    def __init__        tabs.addTab(self.tab1, 'Add Quantity')
+
+        tabs.addTab(self.tab2, 'Reduce Quantity')
+
+        tabs.addTab(self.tab3, 'Delete Stock')
+
+ 
+
+        self.tab1UI()
+
+        self.tab2UI()
+
+        self.tab3UI()
+
+ 
+
+        layout.addWidget(tabs)
+
+        self.stack2.setLayout(layout)
+
+ 
+
+    def tab1UI(self):
+
+        layout = QFormLayout()
+
+        self.ok_add = QPushButton('Add Stock', self)
+
+        cancel = QPushButton('Cancel', self)
+
+ 
+
+        self.stock_name_add = QLineEdit()
+
+        layout.addRow("Stock Name", self.stock_name_add)
+
+ 
+
+        self.stock_count_add = QLineEdit()
+
+        layout.addRow("Quantity to add", self.stock_count_add)
+
+ 
+
+        layout.addWidget(self.ok_add)
+
+        layout.addWidget(cancel)
+
+        self.tab1.setLayout(layout)
+
+ 
+
+        self.ok_add.clicked.connect(self.call_add)       #need to write function to add quantity
+
+        cancel.clicked.connect(self.stock_name_add.clear)
+
+        cancel.clicked.connect(self.stock_count_add.clear)
+
+ 
+
+    def tab2UI(self):
+
+        layout = QFormLayout()
+
+        self.ok_red = QPushButton('Reduce Stock', self)
+
+        cancel = QPushButton('Cancel', self)
+
+ 
+
+        self.stock_name_red = QLineEdit()
+
+        layout.addRow("Stock Name", self.stock_name_red)
+
+ 
+
+        self.stock_count_red = QLineEdit()
+
+        layout.addRow("Quantity to reduce", self.stock_count_red)
+
+ 
+
+ 
+
+        layout.addWidget(self.ok_red)
+
+        layout.addWidget(cancel)
+
+        self.tab2.setLayout(layout)
+
+ 
+
+        self.ok_red.clicked.connect(self.call_red)  # need to write function to reduce quantity
+
+        cancel.clicked.connect(self.stock_name_red.clear)
+
+        cancel.clicked.connect(self.stock_count_red.clear)
+
+ 
+
+    def tab3UI(self):
+
+        layout = QFormLayout()
+
+        self.ok_del = QPushButton('Delete Stock', self)
+
+        cancel = QPushButton('Cancel', self)
+
+ 
+
+        self.stock_name_del = QLineEdit()
+
+        layout.addRow("Stock Name", self.stock_name_del)
+
+        layout.addWidget(self.ok_del)
+
+        layout.addWidget(cancel)
+
+        self.tab3.setLayout(layout)
+
+ 
+
+        self.ok_del
